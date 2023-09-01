@@ -1,0 +1,263 @@
+openapi: 3.0.0
+info:
+  title: Transfer Request Management API
+  version: 1.0.0
+  description: Transfer Request Management API using Express JS
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: bearer with JWT Token
+
+paths:
+  /auth:
+    get:
+      tags:
+        - "All users"
+      summary: Get all users
+      responses:
+        200:
+          description: Success get all users
+        500:
+          description: Internal Server error
+          
+  /auth/register:
+    post:
+      tags:
+        - "All users"
+      summary: Register new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 1
+                  default: 'maker1'
+                password:
+                  type: string
+                  default: 'maker123'
+                role:
+                  type: string
+                  enum: [maker, approver]
+                  default: maker
+      responses:
+        200:
+          description: User successfully registered
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server error
+          
+  /auth/login:
+    post:
+      tags:
+        - "All users"
+      summary: Login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  default: 'maker1'
+                password:
+                  type: string
+                  default: 'Maker123'
+      responses:
+        200:
+          description: User successfully logged in
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server error
+          
+  /auth/admin:
+    get:
+      security:
+        - bearer: []
+      tags:
+        - "Admin"
+      summary: Get all users
+      responses:
+        200:
+          description: Success get all users
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server error
+
+  /transfer:
+    get:
+      security:
+        - bearer: []
+      tags:
+        - "Admin"
+        - "Approver"
+      summary: Get all transfer
+      responses:
+        200:
+          description: Success get all transfers
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server error
+
+  /transfer/{user_id}:
+    get:
+      security:
+        - bearer: []
+      tags:
+        - "Users"
+      summary: Get all transfer
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Success get all transfers
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server error
+      
+    post:
+      security:
+        - bearer: []
+      tags:
+        - "Users"
+      summary: Create new transfer
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destinationBank:
+                  type: string
+                destinationAccount:
+                  type: number
+                  default: 123456789
+                amount:
+                  type: number
+                  default: 1000
+                details:
+                  type: string
+      responses:
+        200:
+          description: Successfully created a transfer
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server error
+          
+  /transfer/{transferId}:
+    patch:
+      security:
+        - bearer: []
+      tags:
+        - "Admin"
+        - "Approver"
+      summary: Update status transfer
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [approve, reject]
+      responses:
+        200:
+          description: Status successfully updated
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server error
+
+    put:
+      security:
+        - bearer: []
+      tags:
+        - "Admin"
+      summary: Update status transfer
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destinationBank:
+                  type: string
+                destinationAccount:
+                  type: number
+                  default: 123456789
+                amount:
+                  type: number
+                  default: 1000
+                details:
+                  type: string
+      responses:
+        200:
+          description: Update status success
+        401:
+          description: Unauthorized
+        404:
+          description: Not found
+        500:
+          description: Server Internal error
+
+    delete:
+      security:
+        - bearer: []
+      tags:
+        - "Admin"
+      summary: Update status transfer
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Update status success
+        401:
+          description: Unauthorized
+        404:
+          description: Not found
+        500:
+          description: Internal Server error
