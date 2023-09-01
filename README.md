@@ -84,7 +84,7 @@ The transfer data is still empty. Feel free to try adding and changing data.
 | **Create Transfer by User ID (user)**           | `POST`   | [/transfer/:user_id] | Request Params: `user_id: number` <br> Request Body: `destinationBank: string, destinationAccount: number, amount: number, details: string` |
 | **Update Transfer Status by Transfer ID (admin/approver)** | `PATCH`  | [/transfer/:transferId] | Request Params: `transferId: number` <br> Request Body: `status: string` |
 | **Change Transfer Data by Transfer ID (admin)** | `PUT`    | [/transfer/:transferId]   | Request Params: `transferId: number` <br> Request Body: `destinationBank: string, destinationAccount: number, amount: number, details: string` |
-| **Delete Transfer by Transfer ID**              | `DELETE` | [/transfer/:transferId]  | Request Params: `transferId: number` |
+| **Delete Transfer by Transfer ID (admin)**      | `DELETE` | [/transfer/:transferId]  | Request Params: `transferId: number` |
 
 ### Deploy
 
