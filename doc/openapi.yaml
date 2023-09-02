@@ -73,10 +73,10 @@ paths:
               properties:
                 username:
                   type: string
-                  default: 'maker1'
+                  default: 'user123'
                 password:
                   type: string
-                  default: 'Maker123'
+                  default: 'ester123'
       responses:
         200:
           description: User successfully logged in
