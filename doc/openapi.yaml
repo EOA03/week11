@@ -44,14 +44,14 @@ paths:
                 username:
                   type: string
                   minLength: 1
-                  default: 'maker1'
+                  default: 'user1'
                 password:
                   type: string
-                  default: 'maker123'
+                  default: 'ester123'
                 role:
                   type: string
-                  enum: [maker, approver]
-                  default: maker
+                  enum: [user, approver, admin]
+                  default: user
       responses:
         200:
           description: User successfully registered
